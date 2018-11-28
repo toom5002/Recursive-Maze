@@ -180,7 +180,7 @@ public static void userchoise() {
     
     
 }
-} //penissssssss
+}
 // Have the starting position show up on the frame with words saying start.
 // have it ask for starting and ending position
 // make a few default mazes and have people be able to choose which one they want solved
