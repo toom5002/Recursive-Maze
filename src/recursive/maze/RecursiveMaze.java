@@ -175,12 +175,12 @@ public class RecursiveMaze {  // make maze bigger
 public static void userchoise() {
     String[] buttons = {"MAZE 1", "MAZE 2", "Maze 3"};
     
-        int b = JOptionPane.showOptionDialog(null, "Which maze will you want solved?", "Maze solver!",
+        int b = JOptionPane.showOptionDialog(null, "Which maze do you want solved?", "Maze solver!",
                     JOptionPane.INFORMATION_MESSAGE, 1, null, buttons, buttons[0]);
     
     
 }
-}
+} //penissssssss
 // Have the starting position show up on the frame with words saying start.
 // have it ask for starting and ending position
 // make a few default mazes and have people be able to choose which one they want solved
