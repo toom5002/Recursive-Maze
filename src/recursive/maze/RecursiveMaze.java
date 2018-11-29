@@ -1,12 +1,55 @@
 package recursive.maze;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 public class RecursiveMaze {  // make maze bigger
 
-    public static JFrame window = new JFrame();
+    public static int sX = 8, sY = 1;
+
+    static String[] cmbTxt = {"MAZE 1", "MAZE 2", "MAZE 3"};
+    static JComboBox cmbMsg = new JComboBox(cmbTxt);
+    static JLabel lblcombo = new JLabel();
+
+    public static ActionListener a = (new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (e.getSource() == cmbMsg) {
+                JComboBox cmb2 = (JComboBox) e.getSource();
+                String msg = (String) cmb2.getSelectedItem();
+                switch (msg) {
+                    case "MAZE 1":
+                        lblcombo.setText("Maze 1");
+                        maze = maze1.clone();
+                        frame(sX, sY, testW);
+                        //System.out.println("1");
+
+                        break;
+                    case "MAZE 2":
+                        lblcombo.setText("Maze 2");
+                        maze = maze2.clone();
+                        //System.out.println("2");
+
+                        break;
+                    case "MAZE 3":
+                        lblcombo.setText("Maze 3");
+                        maze = maze3.clone();
+                        //System.out.println("3");
+
+                        break;
+                    default:
+                        lblcombo.setText("There seems to be an error in the program. Whoops!");
+                }
+            }
+
+        }
+
+    });
+    public static JFrame testW = new JFrame();
+
     public static JLabel[][] lbl = new JLabel[10][10];
     public int counter = 0;
     public static String[][] maze = new String[10][10];
@@ -24,26 +67,26 @@ public class RecursiveMaze {  // make maze bigger
 
     public static String[][] maze2
             = {{"#", "#", "#", "#", "#", "#", "#", "#", "#", "#"},
-            {"#", " ", " ", " ", "#", " ", "#", " ", " ", "#"},
-            {"#", " ", " ", " ", "#", " ", "#", " ", "#", "#"},
-            {"#", " ", " ", " ", " ", " ", " ", " ", " ", "#"},
-            {"#", " ", " ", " ", " ", " ", " ", " ", " ", "#"},
-            {"#", "#", " ", " ", " ", " ", " ", " ", " ", "#"},
-            {"#", " ", " ", " ", " ", "#", "#", "#", "#", "#"},
-            {"#", " ", " ", " ", " ", " ", "#", " ", "#", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
             {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
             {"#", "#", "#", "#", "#", "#", "#", "#", "#", "#"},};
-    
+
     public static String[][] maze3
             = {{"#", "#", "#", "#", "#", "#", "#", "#", "#", "#"},
-            {"#", " ", " ", " ", "#", " ", "#", " ", " ", "#"},
-            {"#", " ", " ", " ", "#", " ", "#", " ", "#", "#"},
             {"#", " ", " ", " ", " ", " ", " ", " ", " ", "#"},
-            {"#", " ", " ", " ", " ", " ", " ", " ", " ", "#"},
-            {"#", "#", " ", " ", " ", " ", " ", " ", " ", "#"},
-            {"#", " ", " ", " ", " ", "#", "#", "#", "#", "#"},
-            {"#", " ", " ", " ", " ", " ", "#", " ", "#", "#"},
             {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", "#", " ", " ", " ", " ", " ", " ", "#"},
+            {"#", " ", " ", " ", " ", " ", " ", " ", " ", "#"},
             {"#", "#", "#", "#", "#", "#", "#", "#", "#", "#"},};
 
     // Get the start location (x,y) and try to solve the maze
@@ -137,18 +180,23 @@ public class RecursiveMaze {  // make maze bigger
     public static void main(String[] args) throws InterruptedException {
         RecursiveMaze m = new RecursiveMaze();
 
+        JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setTitle("Maze");
         window.setExtendedState(JFrame.MAXIMIZED_BOTH);
         window.setLayout(new GridLayout(10, 10));
 
-        userchoise();
-        int sX = 8;
-        int sY = 1;
-        // Locate the exit 
+        testW.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        testW.setTitle("Maze Setup");
+        testW.setBounds(850, 0, 1080, 1080);
+        testW.setLayout(new GridLayout(10, 10));
+        testW.setVisible(true);
 
+        userchoise();
+
+        // Locate the exit 
         m.maze[1][1] = "X";
-        frame(sX, sY);
+        frame(sX, sY, window);
         window.setVisible(true);
         // Start solving the maze from (8, 1)
 
@@ -159,7 +207,7 @@ public class RecursiveMaze {  // make maze bigger
         //moved framed to just after the starting gets placed in order to have it go up
     }
 
-    public static void frame(int sX, int sY) {
+    public static void frame(int sX, int sY, JFrame window) {
 
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
@@ -194,27 +242,20 @@ public class RecursiveMaze {  // make maze bigger
 
             }
         }
-
     }
 
     public static void userchoise() {
-        String[] buttons = {"MAZE 1", "MAZE 2", "Maze 3"};
+        //tring[] buttons = {"MAZE 1", "MAZE 2", "MAZE 3"};
 
-        int choice = JOptionPane.showOptionDialog(null, "Which maze do you want solved?\n", "Maze solver!",
-                JOptionPane.INFORMATION_MESSAGE, 1, null, buttons, buttons[0]);
-        if (choice == 0) {
-            maze = maze1.clone();
-        }
-        if (choice == 1) {
-            maze = maze2.clone();
-        }
-        if (choice == 2) {
-            maze = maze3.clone();
-        }
+        cmbMsg.setSelectedIndex(0);
+        cmbMsg.addActionListener(a);
+        JOptionPane.showMessageDialog(null, cmbMsg, "Choose A Maze!", JOptionPane.QUESTION_MESSAGE);
+        testW.setVisible(false);
+
     }
 }
-// use JComboBox for the last part right here ^^
-// array1 = array2.clone
-// Have the starting position show up on the frame with words saying start.
+// have it pass a boolean that will check if it is running the entire code or just a test. dont want the whole thing solved just walls to show up 1/2
+// for the preview part 2/2
 // have it ask for starting and ending position
+// setLocation of the JComboBox
 // make a few default mazes and have people be able to choose which one they want solved
