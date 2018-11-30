@@ -9,7 +9,7 @@ import javax.swing.border.LineBorder;
 public class RecursiveMaze {  // make maze bigger
 
     public static int sX = 8, sY = 1;
-
+    static JFrame testW = new JFrame();
     static String[] cmbTxt = {"MAZE 1", "MAZE 2", "MAZE 3"};
     static JComboBox cmbMsg = new JComboBox(cmbTxt);
     static JLabel lblcombo = new JLabel();
@@ -17,38 +17,44 @@ public class RecursiveMaze {  // make maze bigger
     public static ActionListener a = (new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+
             if (e.getSource() == cmbMsg) {
+                setup(1);
+                testW.setVisible(true);
+
                 JComboBox cmb2 = (JComboBox) e.getSource();
                 String msg = (String) cmb2.getSelectedItem();
                 switch (msg) {
                     case "MAZE 1":
                         lblcombo.setText("Maze 1");
                         maze = maze1.clone();
-                        frame(sX, sY, testW);
-                        //System.out.println("1");
+                        setup(1);
+                        testW.setVisible(true);
+                        System.out.println("1");
 
                         break;
                     case "MAZE 2":
                         lblcombo.setText("Maze 2");
                         maze = maze2.clone();
-                        //System.out.println("2");
-
+                        System.out.println("2");
+                        setup(2);
+                        testW.setVisible(true);
                         break;
                     case "MAZE 3":
                         lblcombo.setText("Maze 3");
                         maze = maze3.clone();
-                        //System.out.println("3");
-
+                        System.out.println("3");
+                        setup(3);
+                        testW.setVisible(true);
                         break;
                     default:
-                        lblcombo.setText("There seems to be an error in the program. Whoops!");
+                        System.exit(0);
                 }
             }
 
         }
 
     });
-    public static JFrame testW = new JFrame();
 
     public static JLabel[][] lbl = new JLabel[10][10];
     public int counter = 0;
@@ -179,6 +185,7 @@ public class RecursiveMaze {  // make maze bigger
 
     public static void main(String[] args) throws InterruptedException {
         RecursiveMaze m = new RecursiveMaze();
+        maze = maze1.clone();
 
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -244,18 +251,57 @@ public class RecursiveMaze {  // make maze bigger
         }
     }
 
-    public static void userchoise() {
-        //tring[] buttons = {"MAZE 1", "MAZE 2", "MAZE 3"};
+    public static void setup(int mazeNum) {
+        JLabel[][] lblT = new JLabel[10][10];
 
+        switch (mazeNum) {
+            case 1:
+                maze = maze1.clone();
+                break;
+            case 2:
+                maze = maze2.clone();
+                break;
+            case 3:
+                maze = maze3.clone();
+                break;
+        }
+        System.out.println("ehgba");
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                //lbl[x][y] = new JLabel(maze[x][y], SwingConstants.CENTER);
+                //lbl[x][y].setFont(new Font("Verdana", Font.BOLD, 60));
+                lblT[x][y] = new JLabel("", SwingConstants.CENTER);
+                lblT[x][y].setName(maze[x][y]);
+                lblT[x][y].setOpaque(true);
+                //lbl[x][y].setText(lbl[x][y].getName());
+                if ((lblT[x][y].getName()).equals("#")) {
+                    lblT[x][y].setBackground(Color.BLACK);
+
+                } else if (lblT[x][y] == lblT[sX][sY]) {
+                    lblT[x][y].setBackground(Color.GREEN);
+                    lblT[x][y].setText("START");
+                    lblT[x][y].setFont(new Font("Verdana", Font.BOLD, 40));
+
+                }
+                lblT[x][y].setBorder(new LineBorder(Color.BLACK));
+                testW.add(lblT[x][y]);
+            }
+
+        }
+        
+
+    }
+
+    public static void userchoise() {
         cmbMsg.setSelectedIndex(0);
         cmbMsg.addActionListener(a);
         JOptionPane.showMessageDialog(null, cmbMsg, "Choose A Maze!", JOptionPane.QUESTION_MESSAGE);
-        testW.setVisible(false);
 
+        // Ask for specific starting and ending positions
+        testW.setVisible(false);
     }
 }
-// have it pass a boolean that will check if it is running the entire code or just a test. dont want the whole thing solved just walls to show up 1/2
+
 // for the preview part 2/2
 // have it ask for starting and ending position
 // setLocation of the JComboBox
-// make a few default mazes and have people be able to choose which one they want solved
